@@ -12,33 +12,29 @@ X: 각 모험가의 공포도를 담은 배열 (X의 각 원소 <= N)
 
 Result: 모험가 그룹을 만들 수 있는 최대 개수
 """
+
 import heapq
+import time
+
+start_time = time.time()    # 시간 측정 시작
 
 N = int(input())
 X = list(map(int, input().split()))
 result = 0
+count = 0
 
 # 공포도 오름차순 정렬
 heapq.heapify(X)
 
-while X:
-    # 가장 작은 공포도 꺼내기
-    x = heapq.heappop(X)
-    group = list()
+for i in X:
+    count += 1
 
-    if x == 1:  # 공포도가 1일 경우엔 혼자 그룹지어주기
-        group.append(x)
-    else:
-        group.append(x)
-        for _ in range(x - 1):  # 공포도 숫자만큼 개수 맞춰서 넣어주기
-            group.append(heapq.heappop(X))
-            if not X:  # 넣는 도중 더이상 pop할 것이 없으면 break
-                break
-
-    # group에서 가장 큰 값이 group의 길이보다 작을 경우
-    if max(group) <= len(group):
+    # 현재 그룹에 포함된 모험가의 수가 현재의 공포도와 크거나 같을 경우 그룹화
+    if count >= i:
         result += 1
-
-    group.clear()  # group 리스트 초기화
+        count = 0
 
 print(result)
+
+end_time = time.time()  # 시간 측정 종료
+print("프로그램 수행 시간: ", end_time - start_time)    # 수행 시간 출력
